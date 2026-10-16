@@ -217,7 +217,7 @@ On Unix, secrets are passed to wrangler commands via a named pipe (FIFO) and nev
 :::
 
 :::caution[Varlock owns your env vars]
-`varlock-wrangler deploy` replaces **all** Cloudflare vars and secrets with the ones defined in your `.env.schema`. Any vars or secrets set manually via the Cloudflare dashboard or `wrangler secret put` that aren't in your schema will be removed on the next deploy. If you need additional bindings (KV, D1, etc.), configure them in your `wrangler.toml` as usual. Only plain vars/secrets are affected.
+`varlock-wrangler deploy` replaces Cloudflare vars with the ones defined in your `.env.schema` (`--keep-vars=false`). Manually added vars that aren't in your schema are removed on the next deploy. Secrets are added or updated via `--secrets-file`, but omitted secrets are **not deleted**. To remove a secret that is no longer in your schema, delete it explicitly with `wrangler secret delete <KEY>` for the target Worker and environment. If you need additional bindings (KV, D1, etc.), configure them in your `wrangler.toml` as usual. These are not affected.
 :::
 </div>
 
@@ -424,7 +424,7 @@ The generated types file is not being loaded by TypeScript. Make sure the [`@gen
 
 - Confirm you deploy with `varlock-wrangler deploy`, not stock `wrangler deploy`, especially on [Workers Builds](#cloudflare-workers-builds-cicd)
 - Check that secret-zero CI vars are set for any plugin-backed items varlock must resolve at deploy time
-- Remember that `varlock-wrangler deploy` **replaces all** Cloudflare vars and secrets with schema-defined ones. Manually added dashboard secrets not in your schema are removed
+- `varlock-wrangler deploy` replaces Cloudflare vars with schema-defined ones, so manually added vars not in your schema are removed. Secrets are added or updated, not removed. Delete obsolete secrets explicitly with `wrangler secret delete <KEY>` for the target Worker and environment
 
 ### Non-wrangler deploy tools (Alchemy, SST, Pulumi)
 
