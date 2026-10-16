@@ -16,6 +16,8 @@ Varlock is a big upgrade over the [default Next.js environment variable tooling]
 
 To integrate varlock into a Next.js application, use our [`@varlock/nextjs-integration`](https://npmx.dev/package/@varlock/nextjs-integration) package. It provides a drop-in replacement for [`@next/env`](https://www.npmjs.com/package/@next/env), the internal package that handles .env loading, plus a small config plugin that injects our additional security features.
 
+In development, the integration watches `.env.schema` and additional env source files to trigger Next.js reloads. These watchers do not keep a process alive on their own, so short-lived helpers can exit while live reload continues in the running dev server.
+
 ## Setup
 
 :::caution[Requirements]

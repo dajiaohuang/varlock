@@ -383,7 +383,7 @@ function enableExtraFileWatchers(sources: SerializedEnvGraph['sources'], basePat
   for (const filePath of extraFilePaths) {
     watchedExtraFiles.add(filePath);
     watchedFileHashes.set(filePath, readFileHash(filePath));
-    fs.watchFile(filePath, { interval: 500 }, () => {
+    fs.watchFile(filePath, { interval: 500, persistent: false }, () => {
       triggerNextReload(filePath);
     });
   }
